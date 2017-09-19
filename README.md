@@ -1,14 +1,18 @@
 # ansible-role-vcsa
 
-Deploys a VMware Platform Service Controller or vCenter Server Appliance using
-the ovftool.
+Deploys a VMware Platform Service Controller or vCenter Server Appliance (vcsa) using
+the ovftool or the cli installer in vcsa 6.5.
 
 # Requirements
 
 This role requires the following (Pip) modules.
 
+- molecule
 - pyVmomi
 - pysphere
+
+To install the vcsa, you must have downloaded the vcsa ISO from vmware before hand.
+This ISO contains the ova we will deploy to ESXi or vCenter Server Instance.
 
 # Role Variables
 

@@ -1,0 +1,12 @@
+---
+- name: Destroying the appliance
+  ignore_errors: "{{ vcsa_ignore_failure_to_destroy }}"
+  vsphere_guest:
+    vcenter_hostname: "{{ vcsa_host_address }}"
+    username: "{{ vcsa_host_user_name }}"
+    password: "{{ vcsa_host_password }}"
+    guest: "{{ vcsa_name }}"
+    state: absent
+    force: yes
+    validate_certs: False
+  when: vcsa_destroy_applicance

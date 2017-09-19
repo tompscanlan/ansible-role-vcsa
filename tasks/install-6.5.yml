@@ -1,0 +1,18 @@
+---
+
+- shell: "ls {{mount_dir_path}}/vcsa-cli-installer/templates/install"
+- name: Create deploy json
+  template:
+    src: "{{ vcsa_version }}/{{ vcsa_install_type }}.json.j2"
+    dest: "{{ vcsa_deploy_json_tmpfile }}"
+
+- name: Run the 6.5 vcsa-cli-installer
+  shell: "{{mount_dir_path}}/vcsa-cli-installer/{{ vcsa_platform }}/vcsa-deploy install --verbose --accept-eula --acknowledge-ceip --no-esx-ssl-verify {{ vcsa_deploy_json_tmpfile }}"
+  register: vcsa_cli_installer_result
+  ignore_errors: True
+
+# Duplicate name may happen in tests when we are trying to install
+- name: fail and show error if fail isn't due to duplicate name
+  fail:
+    msg: "{{ vcsa_cli_installer_result.stderr }}"
+  when: vcsa_cli_installer_result|failed and 'Duplicate name'|lower not in vcsa_cli_installer_result.stderr|lower

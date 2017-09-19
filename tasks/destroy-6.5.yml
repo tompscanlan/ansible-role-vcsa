@@ -1,0 +1,9 @@
+---
+- name: Destroying the 6.5 appliance
+  vsphere_guest:
+    vcenter_hostname: "{{ vcsa_deploy_uri }}"
+    username: "{{ vcsa_host_user_name }}"
+    password: "{{ vcsa_host_password }}"
+    guest: "{{ vcsa_name }}"
+    state: absent
+    force: yes

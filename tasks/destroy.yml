@@ -45,6 +45,6 @@
     - create_oob_vcenterpsc_cleanup_task
 
 - name: Destroy the appliance
-  include: destroy_appliance.yml
+  include_tasks: destroy_appliance.yml
   tags:
     - destroy_appliance
