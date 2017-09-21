@@ -1,6 +1,5 @@
 ---
 
-- shell: "ls {{mount_dir_path}}/vcsa-cli-installer/templates/install"
 - name: Create deploy json
   template:
     src: "{{ vcsa_version }}/{{ vcsa_install_type }}.json.j2"
