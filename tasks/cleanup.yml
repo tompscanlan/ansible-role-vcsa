@@ -20,6 +20,8 @@
     name: "{{ mount_dir_path }}"
     fstype: iso9660
     state: unmounted
+  changed_when: false
 
 - name: Destroy the temp mount directory
   file: path="{{ mount_dir_path }}" state=absent
+  changed_when: false

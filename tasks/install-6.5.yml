@@ -8,11 +8,19 @@
 
 - name: Run the 6.5 vcsa-cli-installer
   shell: "{{mount_dir_path}}/vcsa-cli-installer/{{ vcsa_platform }}/vcsa-deploy install --verbose --accept-eula --acknowledge-ceip --no-esx-ssl-verify {{ vcsa_deploy_json_tmpfile }}"
-  register: vcsa_cli_installer_result
+  async: 3000
+  poll: 15
+  register: vcsa_install_job
   ignore_errors: True
+  failed_when: False
+  changed_when: False
 
 # Duplicate name may happen in tests when we are trying to install
 - name: fail and show error if fail isn't due to duplicate name
   fail:
-    msg: "{{ vcsa_cli_installer_result.stderr }}"
-  when: vcsa_cli_installer_result|failed and 'Duplicate name'|lower not in vcsa_cli_installer_result.stderr|lower
+    msg: "{{ vcsa_install_job.stderr }}"
+  when:
+    - vcsa_install_job|failed
+    - vcsa_install_job.stderr is defined
+    - "'Duplicate name'|lower not in vcsa_install_job.stderr|lower"
+    - "'already exists' not in vcsa_install_job.stderr|lower"

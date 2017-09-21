@@ -1,0 +1,39 @@
+---
+- name: Install VCSA
+  hosts: all
+
+  # To limit RAM use in destination host, use the serial setting.
+  # It will allow only "n" at a time.  As we are using the same
+  # vcsa name for each, the late versions will fail to install
+  # with a duplicate error.
+  #serial: 1
+
+  vars:
+    vcsa_version: 6.5
+    vcsa_host_address: 192.168.1.200
+    vcsa_network_ip: 192.168.1.201
+    vcsa_network_gateway: 192.168.1.254
+    vcsa_name: testing-vCenter-Server-Appliance
+    vcsa_host_user_name: "administrator@vsphere.local"
+    vcsa_host_password: 'VMware1!'
+    vcsa_install_type: 'embedded_vCSA_on_VC'
+    vcsa_datacenter:
+      - "Goddard"
+    vcsa_vc_target:
+      - "Home"
+      - "192.168.1.5"
+
+    # expect that we have pre-copied or mounted the iso
+    chaperone_vcsa_iso: vcsa.iso
+    downloads_dir: /
+
+  pre_tasks:
+    # If not mounting the iso into containers, copy it over first
+    # - copy:
+    #    force: no
+    #    src: "~/Downloads/{{ chaperone_vcsa_iso }}"
+    #    dest: "{{downloads_dir}}/"
+
+  roles:
+    - role: vcsa
+#    - { role: vcsa, vcsa_destroy_applicance: True }

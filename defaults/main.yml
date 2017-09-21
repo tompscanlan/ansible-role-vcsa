@@ -17,8 +17,9 @@
 
 vcsa_destroy_applicance: False
 
-# will get set by testing to either esxi or vcenter
-vcsa_deploy_host_type: vcenter
+# will get set to 'esxi' or 'vc' by testing.
+# indicates the detected type of host we are trying to deploy to.
+vcsa_deploy_host_type: vc
 
 # older deploys use ovftool directly, new deploys use a cli-installer.
 # set this to 6.5 or greated to use the cli-installer
@@ -34,12 +35,21 @@ vcsa_host_user_name: root
 # The password of the host installing vcsa into
 vcsa_host_password: 'VMware1!'
 
+# what to name the vcsa vm
 vcsa_name: 'Default_VCSA_Name'
-vcsa_deployment_network: 'VM Network'
-vcsa_vc_datacenter:
+
+# Only needed if doing a seperate psc installation
+vcsa_psc_name: 'Default_PSC_Name'
+
+# this is the target datacenter (or just datacenter).
+# only required for installing on vcenter
+vcsa_datacenter:
   - "parent folder"
   - "child folder"
   - "Datacenter"
+
+# this is the target folder in the vcenter.
+# only required for installing on vcenter
 vcsa_vc_target:
   - "parent folder"
   - "child folder"
@@ -48,6 +58,9 @@ vcsa_vc_target:
 # A specific ESXi host or DRS cluster datastore,
 # or a specific datastore in a datastore cluster or datastore in vcenter
 vcsa_datastore: 'datastore1'
+
+# Network to deploy the vcenter on
+vcsa_deployment_network: 'VM Network'
 
 vcsa_thin_disk_mode: "true"
 

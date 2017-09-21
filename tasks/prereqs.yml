@@ -15,12 +15,18 @@
 #
 ---
 - name: vmware_guest module requires some pip packages
+  async: 300
+  poll: 0
   pip:
-    name: "{{item}}"
+    name: "{{async_item}}"
     state: "present"
   with_items:
     - pysphere
     - pyVmomi
+  register: pip_results
+  changed_when: false
+  loop_control:
+    loop_var: "async_item"
 
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
@@ -55,7 +61,7 @@
         method: GET
         return_content: yes
       register: ui
-      ignore_errors: True
+      failed_when: ui.content is not defined
 
     - name: Record this is a deploy to ESXi
       set_fact:
@@ -68,10 +74,13 @@
           - "vcsa_deploy_host_type|lower in vcsa_install_type|lower"
         msg: "Deploy on host type {{ vcsa_deploy_host_type }} is not valid with vcsa_install_type == {{ vcsa_install_type }}"
 
-
     - name: Check existance of vcsa ISO file
       stat:
         path: "{{ downloads_dir }}/{{ chaperone_vcsa_iso }}"
+        get_checksum: no
+        get_md5: no
+        get_mime: no
+        get_attributes: no
       register: iso_file
 
     - name: "Assert the iso exists"
@@ -87,4 +96,6 @@
         fstype: iso9660
         opts: ro
         state: mounted
+      changed_when: false
+
   when: not vcsa_destroy_applicance

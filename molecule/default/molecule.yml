@@ -4,29 +4,28 @@ dependency:
 driver:
   name: docker
 
-
 lint:
   name: yamllint
 platforms:
-  - name: centos-7
-    image: centos:7
+  - name: photon
+    image: "photon:latest"
     privileged: true
     command: /usr/lib/systemd/systemd
 
-  - name: ubuntu-xenial
-    image: ubuntu:16.04
-    privileged: true
-    command: /lib/systemd/systemd
+#  - name: centos-7
+#    image: centos:7
+#    privileged: true
+#    command: /usr/lib/systemd/systemd
+#
+#  - name: ubuntu-xenial
+#    image: ubuntu:16.04
+#    privileged: true
+#    command: /lib/systemd/systemd
 
-  - name: ubuntu-trusty
-    image: ubuntu:14.04
-    command: /sbin/init
-    privileged: true
-
-  - name: ubuntu-precise
-    image: ubuntu:12.04
-    command: /sbin/init
-    privileged: true
+#  - name: ubuntu-precise
+#    image: ubuntu:12.04
+#    command: /sbin/init
+#    privileged: true
 
 provisioner:
   name: ansible
@@ -35,6 +34,5 @@ provisioner:
 scenario:
   name: default
 verifier:
-  name: testinfra
   lint:
     name: flake8

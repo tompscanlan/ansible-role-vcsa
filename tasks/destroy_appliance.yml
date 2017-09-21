@@ -1,4 +1,14 @@
 ---
+- name: Ensure pip packages have finished
+  async_status:
+    jid: "{{ pip_result_item.ansible_job_id }}"
+  with_items: "{{ pip_results.results }}"
+  loop_control:
+    loop_var: "pip_result_item"
+  register: pip_poll_results
+  until: pip_poll_results.finished
+  retries: 60
+
 - name: Destroying the appliance
   ignore_errors: "{{ vcsa_ignore_failure_to_destroy }}"
   vsphere_guest:
