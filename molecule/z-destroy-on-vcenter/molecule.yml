@@ -41,7 +41,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: destroy-on-vcenter
+  name: z-destroy-on-vcenter
 verifier:
   name: testinfra
   enabled: false

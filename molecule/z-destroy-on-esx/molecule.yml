@@ -41,7 +41,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: destroy-on-esx
+  name: z-destroy-on-esx
 verifier:
   name: testinfra
   enabled: false
