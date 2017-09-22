@@ -152,3 +152,6 @@ chaperone_log_directory: "/var/log/chaperone"
 network_ip_scheme: Static
 
 vcsa_installer_required_packages: []
+
+# leftover 6.0 vars
+dns_domain_name: corp.local

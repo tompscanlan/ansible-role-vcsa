@@ -7,32 +7,43 @@ driver:
 lint:
   name: yamllint
 platforms:
+  - name: photon
+    groups:
+      - deployer
+      - esx
+    image: "photon:latest"
+
   - name: centos-7
+    groups:
+      - deployer
+      - esx
     image: centos:7
-    privileged: true
-    command: /usr/lib/systemd/systemd
 
   - name: ubuntu-xenial
+    groups:
+      - deployer
+      - esx
     image: ubuntu:16.04
-    privileged: true
-    command: /lib/systemd/systemd
-
-  - name: ubuntu-trusty
-    image: ubuntu:14.04
-    command: /sbin/init
-    privileged: true
 
   - name: ubuntu-precise
+    groups:
+      - deployer
+      - esx
     image: ubuntu:12.04
-    command: /sbin/init
-    privileged: true
 
 provisioner:
   name: ansible
+  inventory:
+    links:
+      group_vars: ../../inventory/group_vars/
+      host_vars: ../../inventory/host_vars/
+
   lint:
     name: ansible-lint
 scenario:
   name: destroy-on-esx
 verifier:
+  name: testinfra
+  enabled: false
   lint:
     name: flake8

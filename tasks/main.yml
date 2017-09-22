@@ -14,6 +14,9 @@
 #  limitations under the License.
 #
 ---
+# - name: Dump all vars
+#   action: template src=templates/dumpall.j2 dest=/tmp/ansible.all
+
 - name: Run Pre-Reqs
   include_tasks: prereqs.yml
 

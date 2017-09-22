@@ -1,28 +1,16 @@
 ---
-- name: Install VCSA
+- name: Install VCSA on ESXi
   hosts: all
 
-  # only allow one at a time, as we will be creating a vcenter with the same name
-  # for each host.  This should let us try one at a time for each host without
-  # having multiple vcenters at once running.
-  serial: 1
+  # To limit RAM use in destination host, use the serial setting.
+  # It will allow only "n" at a time.  As we are using the same
+  # vcsa name for each, the late versions will fail to install
+  # with a duplicate error.
+  # serial: 1
 
   vars:
     vcsa_version: 6.5
-    chaperone_vcsa_iso: VMware-VCSA-all-6.5.0-5973321.iso
-    vcsa_host_address: 172.16.78.161
-    vcsa_network_ip: 172.16.78.10
-    vcsa_network_gateway: 172.16.78.2
-    vcsa_name: Embedded-vCenter-Server-Appliance
-    vcsa_host_user_name: root
-    vcsa_host_password: 'VMware1!'
-
-  pre_tasks:
-    - copy:
-        force: no
-        src: "~/Downloads/{{ chaperone_vcsa_iso }}"
-        dest: "{{downloads_dir}}/"
+    vcsa_install_type: 'embedded_vCSA_on_ESXi'
 
   roles:
     - role: vcsa
-    - { role: vcsa, vcsa_destroy_applicance: True }

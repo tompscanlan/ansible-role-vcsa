@@ -1,5 +1,5 @@
 ---
-- name: Destroy vcsa in ESXi
+- name: Destroy vcsa in vCenter
   hosts: all
   vars:
       vcsa_destroy_applicance: True
